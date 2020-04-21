@@ -1,0 +1,3 @@
+RewriteEngine On
+
+RewriteRule (.*) app/$1 [L]
