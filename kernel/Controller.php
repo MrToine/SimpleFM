@@ -56,4 +56,8 @@ class Controller {
             $this->$model = new $model();
         }
     }
+
+    public function request($controller, $action) {
+        $controller .= 'Controller';
+    }
 }
