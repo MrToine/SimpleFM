@@ -47,7 +47,10 @@ class Controller {
     }
 
     public function loadModel($model) {
-        $file = ROOT.DS.'models'.DS.$model.'.php';
+        if(!empty(ConfigApp::$dir_models)){
+            ConfigApp::$dir_models = ConfigApp::$dir_models.DS;
+        }
+        $file = ROOT.DS.ConfigApp::$dir_models.'models'.DS.$model.'.php';
         require_once($file);
         if(!isset($this->$model)){
             $this->$model = new $model();
