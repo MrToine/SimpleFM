@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" dir="ltr">
+<html lang="<?php echo ConfigApp::$language; ?>" dir="ltr">
     <head>
         <meta charset="utf-8">
         <title></title>

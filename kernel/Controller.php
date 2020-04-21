@@ -23,10 +23,13 @@ class Controller {
             return false;
         }
         extract($this->vars);
+        if(!empty(ConfigApp::$dir_views)){
+            ConfigApp::$dir_views = ConfigApp::$dir_views.DS;
+        }
         if(strpos($view, '/')===0){
-            $view = ROOT.DS.'views'.$view.'.php';
+            $view = ROOT.DS.ConfigApp::$dir_views.'views'.$view.'.php';
         }else{
-            $view = ROOT.DS.'views'.DS.$this->request->controller.DS.$view.'.php';
+            $view = ROOT.DS.ConfigApp::$dir_views.'views'.DS.$this->request->controller.DS.$view.'.php';
         }
         ob_start();
         require($view);

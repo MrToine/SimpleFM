@@ -31,7 +31,10 @@ class Dispatcher {
             $this->request->controller = ConfigApp::$index_page;
         }
         $name = ucfirst($this->request->controller).'Controller';
-        $file = ROOT.DS.'controllers'.DS.$name.'.php';
+        if(!empty(ConfigApp::$dir_controllers)){
+            ConfigApp::$dir_controllers = ConfigApp::$dir_controllers.DS;
+        }
+        $file = ROOT.DS.ConfigApp::$dir_controllers.'controllers'.DS.$name.'.php';
         require $file;
         return new $name($this->request);
     }
