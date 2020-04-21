@@ -58,6 +58,12 @@ class Controller {
     }
 
     public function request($controller, $action) {
+        if(!empty(ConfigApp::$dir_controllers)){
+            ConfigApp::$dir_controllers = ConfigApp::$dir_controllers.DS;
+        }
         $controller .= 'Controller';
+        require_once ROOT.DS.ConfigApp::$dir_controllers.'controllers'.DS.controller.'.php';
+        $c = new $controller();
+        return $c->$action;
     }
 }

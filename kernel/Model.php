@@ -15,8 +15,12 @@ class Model {
     public $dbConf = 'default';
     public $table = false;
     public $db;
+    public $primary_key = "id";
 
     public function __construct() {
+        if($this->table === false) {
+            $this->table = strtolower(get_class($this)).'s';
+        }
         $config = ConfigDatabase::$databases[$this->dbConf];
         if(isset(Model::$connections[$this->dbConf])) {
             $this->db = Model::$connections[$this->dbConf];
@@ -39,14 +43,23 @@ class Model {
                 die('Connection failed.');
             }
         }
-        if($this->table === false) {
-            $this->table = strtolower(get_class($this)).'s';
-        }
     }
 
     public function find($query) {
 
-        $sql = 'SELECT * FROM '.$this->table.' as '.get_class($this).' ';
+        $sql = 'SELECT ';
+
+        if(isset($query['fields'])) {
+            if(is_array($query['fields'])) {
+                $sql .= implode(', ', $$query['fields']);
+            }else{
+                $sql .= $query['fields'];
+            }
+        }else{
+            $sql .= '*';
+        }
+
+        $sql .= ' FROM '.$this->table.' as '.get_class($this).' ';
 
         if(isset($query['conditions'])) {
             $sql .= 'WHERE ';
@@ -64,6 +77,10 @@ class Model {
             }
         }
 
+        if(isset($query['limit'])) {
+            $sql .= ' LIMIT '.$query['limit'];
+        }
+
         $pre = $this->db->prepare($sql);
         $pre->execute();
         return $pre->fetchAll(PDO::FETCH_OBJ);
@@ -71,5 +88,14 @@ class Model {
 
     public function findFirst($query) {
         return current($this->find($query));
+    }
+
+    public function findCount($conditions) {
+        $res = $this->findFirst(array(
+            'fields' => 'COUNT('.$this->primary_key.') as count',
+            'conditions' => $conditions
+        ));
+
+        return $res->count;
     }
 }
