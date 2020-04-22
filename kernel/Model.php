@@ -16,6 +16,9 @@ class Model {
     public $table = false;
     public $db;
     public $primary_key = "id";
+    public $id;
+
+    public $errors = array();
 
     public function __construct() {
         if($this->table === false) {
@@ -90,12 +93,76 @@ class Model {
         return current($this->find($query));
     }
 
-    public function findCount($conditions) {
-        $res = $this->findFirst(array(
-            'fields' => 'COUNT('.$this->primary_key.') as count',
-            'conditions' => $conditions
-        ));
+    public function findCount($conditions=null) {
+        if($conditions) {
+            $res = $this->findFirst(array(
+                'fields' => 'COUNT('.$this->primary_key.') as count',
+                'conditions' => $conditions
+            ));
+        }else {
+            $res = $this->findFirst(array('fields' => 'COUNT('.$this->primary_key.') as count'));
+        }
 
         return $res->count;
+    }
+
+    public function delete($id) {
+        $sql = "DELETE FROM {$this->table} WHERE {$this->primary_key} = $id";
+        $this->db->query($sql);
+    }
+
+    public function save($data) {
+        $key = $this->primary_key;
+        $fields = array();
+        $d = array();
+        foreach ($data as $k => $v) {
+            if($k != $this->primary_key){
+                $fields[] .= "$k=:$k";
+                $d[":$k"] = $v;
+            }elseif(!empty($v)){
+                $d[":$k"] = $v;
+            }
+        }
+        if(isset($data->$key) && !empty($data->$key)){
+            $sql = 'UPDATE '.$this->table.' SET '.implode(',' ,$fields).' WHERE '.$key. '=:'.$key;
+            $this->id = $data->$key;
+            $action = "update";
+        }else{
+            $sql = 'INSERT INTO '.$this->table.' SET '.implode(',' ,$fields);
+            $action = "insert";
+        }
+        $pre = $this->db->prepare($sql);
+        $pre->execute($d);
+        if($action == "insert"){
+            $this->id = $this->db->lastInsertId();
+        }
+        return true;
+    }
+
+    // VALIDATION FORM
+    function validate($data) {
+        $errors = array();
+        $reg_expression = "";
+        foreach ($this->validate as $key => $value) {
+            if($value['rule'] == "alphanumeric_hyphen_repeat"){
+                $reg_expression = "([a-z0-9\-]+)";
+            }
+            if(!isset($data->$key)) {
+                $errors[$key] = $value['message'];
+            }else{
+                if($value['rule'] == 'notEmpty'){
+                    if(empty($data->$key)){
+                        $errors[$key] = $value['message'];
+                    }
+                }elseif(!preg_match('/^'.$reg_expression.'$/', $data->$key)){
+                    $errors[$key] = $value['message'];
+                }
+            }
+        }
+        $this->errors = $errors;
+        if(empty($errors)) {
+            return true;
+        }
+        return false;
     }
 }

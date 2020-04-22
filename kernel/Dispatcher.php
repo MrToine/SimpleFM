@@ -16,32 +16,46 @@ class Dispatcher {
         $this->request = new Request();
         Router::parse($this->request->url, $this->request);
         $controller = $this->loadController();
-        if(!in_array($this->request->action, array_diff(get_class_methods($controller), get_class_methods("Controller")))) {
-            $this->error('method "'.$this->request->action.'" not found in "'.$this->request->controller.'" Controller');
+        $action = $this->request->action;
+        if($this->request->prefix) {
+            $action = $this->request->prefix.'_'.$action;
         }
-        call_user_func_array(array($controller, $this->request->action), $this->request->params);
-        $controller->render($this->request->action);
+        if($this->request->controller != "assets"){
+            if(!in_array($action, array_diff(get_class_methods($controller), get_class_methods("Controller")))) {
+                $this->error('method "'.$action.'" not found in "'.$this->request->controller.'" Controller');
+            }
+            call_user_func_array(array($controller, $action), $this->request->params);
+            $controller->render($action);
+        }
     }
 
     function loadController() {
-        if(empty($this->request->controller)){
-            if(empty(ConfigApp::$index_page)){
-                ConfigApp::$index_page = "index";
+        if($this->request->controller != "assets"){
+            if(empty($this->request->controller)){
+                if(empty(ConfigApp::$index_page)){
+                    ConfigApp::$index_page = "index";
+                }
+                $this->request->controller = ConfigApp::$index_page;
             }
-            $this->request->controller = ConfigApp::$index_page;
+            $name = ucfirst($this->request->controller).'Controller';
+            if(!empty(ConfigApp::$dir_controllers)){
+                ConfigApp::$dir_controllers = ConfigApp::$dir_controllers.DS;
+            }
+            $file = ROOT.DS.ConfigApp::$dir_controllers.'controllers'.DS.$name.'.php';
+            if(!file_exists($file)){
+                $this->error("Controller ".$this->request->controller." not found");
+            }
+            require $file;
+            $controller = new $name($this->request);
+
+            return $controller;
         }
-        $name = ucfirst($this->request->controller).'Controller';
-        if(!empty(ConfigApp::$dir_controllers)){
-            ConfigApp::$dir_controllers = ConfigApp::$dir_controllers.DS;
-        }
-        $file = ROOT.DS.ConfigApp::$dir_controllers.'controllers'.DS.$name.'.php';
-        require $file;
-        return new $name($this->request);
     }
 
     function error($content) {
         header("HTTP/1.0 404 NOT FOUND");
         $controller = new Controller($this->request);
+        $controller->Sessions = new Sessions();
         $controller->set(array(
             "error_message" => $content
         ));

@@ -24,3 +24,15 @@ function debug($var) {
         echo "</pre>";
     }
 }
+
+function errors_form($errors){
+    $Sessions = new Sessions();
+    $html= "";
+    $html .= "Attention, des erreurs se sont glissées. Une innatention peut-être ?";
+    $html .= "<ol>";
+    foreach ($errors as $key => $value) {
+        $html .= "<li>".$value."</li>";
+    }
+    $html .= "</ol>";
+    $Sessions->set_flash($html, "warning");
+}

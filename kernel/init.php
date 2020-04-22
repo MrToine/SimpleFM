@@ -9,8 +9,11 @@
 #################################################################################################################*/
 $begin = microtime(true);
 
+require 'Sessions.php';
+
 require 'functions.php';
 require 'Router.php';
+require 'Forms.php';
 
 require ROOT.DS.'config'.DS.'app.php';
 require ROOT.DS.'config'.DS.'database.php';

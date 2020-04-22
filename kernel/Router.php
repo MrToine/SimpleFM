@@ -11,6 +11,11 @@
 class Router {
 
     static $routes = array();
+    static $prefixes = array();
+
+    static function prefix($url, $prefix) {
+        self::$prefixes[$url] = $prefix;
+    }
 
     /**
     * Parse an url
@@ -33,8 +38,21 @@ class Router {
         }
 
         $params = explode('/', $url);
+
+        //admin
+        if(in_array($params[0], array_keys(self::$prefixes))) {
+            $request->prefix = self::$prefixes[$params[0]];
+            array_shift($params);
+        }
+
         $request->controller = $params[0];
         $request->action = isset($params[1]) ? $params[1] : 'index';
+        foreach (self::$prefixes as $key => $value) {
+            if(strpos($request->action, $value.'_') === 0){
+                $request->prefix = $value;
+                $request->action = str_replace($value, '_', '', $request->action);
+            }
+        }
         $request->params = array_slice($params, 2);
         return true;
     }
@@ -48,6 +66,7 @@ class Router {
         $r['original'] = '/'.str_replace('/', '\/', $r['original']).'/';
 
         $params = explode('/', $url);
+
         foreach ($params as $key => $value) {
             if(strpos($value, ':')) {
                 $p = explode(':', $value);
@@ -70,6 +89,16 @@ class Router {
         self::$routes[] = $r;
     }
 
+    static function base_url($url) {
+        $url = trim($url, '/');
+        return BASE_URL.'/'.$url;
+    }
+
+    static function base_url_absolute($url){
+        $url = trim($url, '/');
+        return WEBROOT_URL.'/'.$url;
+    }
+
     static function url($url) {
         foreach (self::$routes as $value) {
             if(preg_match($value['original'], $url, $match)){
@@ -81,6 +110,11 @@ class Router {
                 return $value['redirection'];
             }
         }
-        return $url;
+        foreach(self::$prefixes as $key => $value) {
+            if(strpos($url, $value) === 0) {
+                $url = str_replace($value, $key, $url);
+            }
+        }
+        return BASE_URL.'/'.$url;
     }
 }

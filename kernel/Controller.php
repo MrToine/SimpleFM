@@ -15,7 +15,12 @@ class Controller {
     private $rendered = false;
 
     function __construct($request) {
-        $this->request = $request;
+        $this->Sessions = new Sessions();
+        $this->Form = new Forms($this);
+        if($request) {
+            $this->request = $request;
+            require ROOT.DS.'config'.DS.'hook.php';
+        }
     }
 
     public function render($view) {
@@ -65,5 +70,12 @@ class Controller {
         require_once ROOT.DS.ConfigApp::$dir_controllers.'controllers'.DS.controller.'.php';
         $c = new $controller();
         return $c->$action;
+    }
+
+    public function redirect($url, $code = null) {
+        if($code == 301){
+            header("HTTP/1.1 301 Moved Parmanently");
+        }
+        header('Location: '.Router::url($url));
     }
 }
