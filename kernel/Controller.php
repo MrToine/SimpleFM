@@ -1,12 +1,12 @@
 <?php
-/*#################################################################################################################
-#                                                                                                                 #
-# Author : VIOLET Anthony                                                                                         #
-# Created : `Date.today.strftime('%D')`                                                                           #
-# Updated : `Date.today.strftime('%D')`                                                                           #
-# Licence : General Public License (GPL)                                                                          #
-#                                                                                                                 #
-#################################################################################################################*/
+/**
+ * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL-3.0
+ * @author      Anthony VIOLET
+ * @version     SimpleFM 1.0 - date:date
+ * @since       SimpleFM 1.1 - 23/04/2020
+ * @contributor
+*/
+
 class Controller {
 
     public $request;
@@ -23,7 +23,8 @@ class Controller {
         }
     }
 
-    public function render($view) {
+    public function render($view, $data=array()) {
+        $this->request->view = $view;
         if($this->rendered){
             return false;
         }
@@ -33,6 +34,9 @@ class Controller {
         }
         if(strpos($view, '/')===0){
             $view = ROOT.DS.ConfigApp::$dir_views.'views'.$view.'.php';
+        }elseif(strpos($view, '_')===0){
+            $view = ROOT.DS.'views/layout/'.$view.'.php';
+            $this->set($data);
         }else{
             $view = ROOT.DS.ConfigApp::$dir_views.'views'.DS.$this->request->controller.DS.$view.'.php';
         }

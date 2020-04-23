@@ -1,12 +1,11 @@
 <?php
-/*#################################################################################################################
-#                                                                                                                 #
-# Author : VIOLET Anthony                                                                                         #
-# Created : `Date.today.strftime('%D')`                                                                           #
-# Updated : `Date.today.strftime('%D')`                                                                           #
-# Licence : General Public License (GPL)                                                                          #
-#                                                                                                                 #
-#################################################################################################################*/
+/**
+ * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL-3.0
+ * @author      Anthony VIOLET
+ * @version     SimpleFM 1.0 - 20/04/2020
+ * @since       SimpleFM 1.1 - 23/04/2020
+ * @contributor
+*/
 
 class Dispatcher {
 
@@ -25,7 +24,9 @@ class Dispatcher {
                 $this->error('method "'.$action.'" not found in "'.$this->request->controller.'" Controller');
             }
             call_user_func_array(array($controller, $action), $this->request->params);
-            $controller->render($action);
+            if(strpos($controller->request->view, '_')!==0){
+                $controller->render($action);
+            }
         }
     }
 

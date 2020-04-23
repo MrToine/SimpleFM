@@ -33,7 +33,7 @@ if($this->Sessions->isLogged()) {
                                 <?php
                                 if($this->Sessions->isLogged()){
                                     if($this->Sessions->user('role') == "admin") {
-                                        echo '<li><a href="'.Router::url('admin/').'">Panel Admin</a></li>';
+                                        echo '<li><a href="'.Router::url('admin/home').'">Panel Admin</a></li>';
                                     }
                                 }
                                 ?>
@@ -71,7 +71,7 @@ if($this->Sessions->isLogged()) {
                         <div class="footer-child">
                             <h5>HUB</h5>
                             <ul class="unstyled">
-                                <li> <a href="<?php echo Router::url('admin/news') ?>">Administrateurs</a> </li>
+                                <li> <a href="<?php echo Router::url('admin/home') ?>">Administrateurs</a> </li>
                                 <li>lien</li>
                             </ul>
                         </div>

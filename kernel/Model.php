@@ -111,7 +111,7 @@ class Model {
         $this->db->query($sql);
     }
 
-    public function save($data) {
+    public function save($data, $scape=false) {
         $key = $this->primary_key;
         $fields = array();
         $d = array();
@@ -123,7 +123,7 @@ class Model {
                 $d[":$k"] = $v;
             }
         }
-        if(isset($data->$key) && !empty($data->$key)){
+        if(isset($data->$key) && !empty($data->$key) || $scape == true){
             $sql = 'UPDATE '.$this->table.' SET '.implode(',' ,$fields).' WHERE '.$key. '=:'.$key;
             $this->id = $data->$key;
             $action = "update";
