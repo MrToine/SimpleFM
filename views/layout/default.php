@@ -1,7 +1,7 @@
 <?php
 if($this->Sessions->isLogged()) {
     $link_log = "logout";
-    $link_profile = "index";
+    $link_profile = "profile/";
     $view_profile = "Espace membre";
 }else{
     $link_log = "login";
@@ -15,6 +15,10 @@ if($this->Sessions->isLogged()) {
         <meta charset="utf-8">
         <title><?php echo isset($layout_title)?$layout_title:''; ?> Univers-Passion</title>
         <link rel="stylesheet" href="https://rawgit.com/alsacreations/KNACSS/master/css/knacss-unminified.css" media="all">
+        <link rel="stylesheet" href="<?php echo Router::base_url('assets/css/editor.min.css') ?>">
+        <!-- Plugins editor CSS -->
+        <link rel="stylesheet" href="<?php echo Router::base_url('assets/js/editor/plugins/colors/ui/trumbowyg.colors.min.css'); ?>">
+        <link rel="stylesheet" href="<?php echo Router::base_url('assets/js/editor/plugins/emoji/ui/trumbowyg.emoji.min.css'); ?>">
         <link rel="stylesheet" href="<?php echo Router::base_url('assets/css/generic.css') ?>">
     </head>
     <body class="gray-900">
@@ -90,4 +94,51 @@ if($this->Sessions->isLogged()) {
             </section>
         </section>
     </body>
+    <!-- Import jQuery -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+    <script type="text/javascript" src="<?php echo Router::base_url('assets/js/editor/trumbowyg.min.js'); ?>"></script>
+    <!-- Plugins Editor -->
+    <script type="text/javascript" src="<?php echo Router::base_url('assets/js/editor/plugins/colors/trumbowyg.colors.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo Router::base_url('assets/js/editor/plugins/emoji/trumbowyg.emoji.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo Router::base_url('assets/js/editor/plugins/fontsize/trumbowyg.fontsize.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo Router::base_url('assets/js/editor/plugins/mention/trumbowyg.mention.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo Router::base_url('assets/js/editor/plugins/pasteimage/trumbowyg.pasteimage.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo Router::base_url('assets/js/editor/plugins/upload/trumbowyg.upload.min.js'); ?>"></script>
+    <!-- Init Trumbowyg -->
+    <script>
+        // Doing this in a loaded JS file is better, I put this here for simplicity
+        $('.wysiwg').trumbowyg({
+            btnsDef: {
+                upload_p: {
+                    fn: function() {
+                         window.open("<?php echo Router::url('admin/medias/index/'.$id); ?>", "Upload", "menubar=no, status=no, scrollbars=no, menubar=no, width=500, height=500");
+                    },
+                    ico: 'upload'
+                }
+            },
+            btns: [
+                ['viewHTML'],
+                ['emoji'],
+                ['strong', 'em', 'del'],
+                ['fontsize'],
+                ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+                ['foreColor', 'backColor'],
+                ['upload_p', 'insertImage'],
+                //['upload'],
+                //['mention'],
+                ['link'],
+                ['unorderedList', 'orderedList'],
+                ['horizontalRule'],
+                ['removeformat'],
+            ],
+            plugins: {
+                upload: {
+                    serverPath: '',
+                    fileFieldName: 'image',
+                }
+            },
+            changeActiveDropdownIcon: true
+        });
+    </script>
 </html>

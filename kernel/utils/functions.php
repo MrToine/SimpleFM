@@ -48,3 +48,8 @@ function on_date($date, $full=false){
 function popup($link){
     echo 'window.open(\''.$link.'\', \'Upload\', \'menubar=no, status=no, scrollbars=no, menubar=no, width=500, height=500\')';
 }
+
+function secure_form($value){
+    $regex = "/\<script(.*?)?\>(.|\\n)*?\<\/script\>/i";
+    return preg_match_all ($regex, $value);
+}

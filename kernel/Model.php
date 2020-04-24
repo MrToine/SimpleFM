@@ -154,6 +154,10 @@ class Model {
                     if(empty($data->$key)){
                         $errors[$key] = $value['message'];
                     }
+                }elseif($value['rule'] == 'clean_xss') {
+                    if(preg_match('/\<script(.*?)?\>(.|\s)*?\<\/script\>/i', $data->content)){
+                        $errors[$key] = $value['message'];
+                    }
                 }elseif(!preg_match('/^'.$reg_expression.'$/', $data->$key)){
                     $errors[$key] = $value['message'];
                 }
