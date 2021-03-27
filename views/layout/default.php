@@ -15,11 +15,11 @@ if($this->Sessions->isLogged()) {
         <meta charset="utf-8">
         <title><?php echo isset($layout_title)?$layout_title:''; ?> Univers-Passion</title>
         <link rel="stylesheet" href="https://rawgit.com/alsacreations/KNACSS/master/css/knacss-unminified.css" media="all">
-        <link rel="stylesheet" href="<?php echo Router::base_url('assets/css/editor.min.css') ?>">
+        <link rel="stylesheet" href="<?php echo Router::base_url('/assets/css/editor.min.css') ?>">
         <!-- Plugins editor CSS -->
-        <link rel="stylesheet" href="<?php echo Router::base_url('assets/js/editor/plugins/colors/ui/trumbowyg.colors.min.css'); ?>">
-        <link rel="stylesheet" href="<?php echo Router::base_url('assets/js/editor/plugins/emoji/ui/trumbowyg.emoji.min.css'); ?>">
-        <link rel="stylesheet" href="<?php echo Router::base_url('assets/css/generic.css') ?>">
+        <link rel="stylesheet" href="<?php echo Router::base_url('/assets/js/editor/plugins/colors/ui/trumbowyg.colors.min.css'); ?>">
+        <link rel="stylesheet" href="<?php echo Router::base_url('/assets/js/editor/plugins/emoji/ui/trumbowyg.emoji.min.css'); ?>">
+        <link rel="stylesheet" href="<?php echo Router::base_url('/assets/css/generic.css') ?>">
     </head>
     <body class="gray-900">
         <section>
@@ -31,7 +31,7 @@ if($this->Sessions->isLogged()) {
                         <nav class="navigation">
                               <ul>
                                 <li><a href="<?php echo Router::url(''); ?>">Accueil</a></li>
-                                <li>Forum</li>
+                                <li><a href="<?php echo Router::url('forum'); ?>">Forum</a></li>
                                 <li><a href="<?php echo Router::url('users/'.$link_log); ?>"><?php echo ($this->Sessions->isLogged())?'Déconnexion':'Connexion/Inscription'; ?></a></li>
                                 <li><a href="<?php echo Router::url('users/'.$link_profile); ?>"><?php echo $view_profile ?></a></li>
                                 <?php

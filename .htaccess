@@ -1,3 +1,6 @@
 RewriteEngine On
-
+RewriteCond %{Request_URI} !^.*/assets/.*
+RewriteCond %{Request_URI} !^.*/assets/js/.*
+RewriteCond %{Request_URI} !^.*/assets/css/.*
+RewriteCond %{Request_URI} !^.*/assets/img/.*
 RewriteRule (.*) app/$1 [L]
