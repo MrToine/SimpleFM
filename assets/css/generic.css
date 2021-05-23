@@ -1,23 +1,42 @@
+p {
+    padding-left: 10px;
+}
 .sand-color {
     background-color: #B7A176;
 }
 .sand-lite-color {
     background-color: #D1C4A9;
 }
+.sand-dark-color {
+    background-color: #9A8967;
+}
 .gray-900 {
     background-color: #212529;
     color: #e7e9ed;
 }
+.light-color {
+    background-color: #D8E3E3;
+}
 .main-page {
     margin: 15px;
     color: #5F553D;
+    border-left: 1px solid #212529;
+    border-right: 1px solid #212529;
 }
 .header {
-    background-image: url('../img/website/banner.png');
+    font-family: Play;
+    color: #4c96d7;
+    background-image: url('../img/website/logo.png');
     width: 100%;
-    height: 250px;
-    border-bottom: 1px solid grey;
+    height: 200px;
+    background-repeat:no-repeat;
 }
+
+/* Menu */
+.menu-lateral {
+    width: 200px;
+}
+
 .bordered-grey {
     border: 1px solid grey;
 }
@@ -40,15 +59,121 @@
       padding: 0;
       list-style: none;
 }
-.navigation li {
-      display: inline-block;
-      padding: 1rem;
+.navigation li a:hover {
+    display: block;
+    background-color:#FFF;
+    color: #306A74;
+    text-decoration: none;
 }
-
+.navigation li a {
+    display:block;
+    float:left;
+    min-width:150px;
+    max-width: 250px;
+    text-align:center;
+    padding:5px;
+    height:50px;
+    font-weight: bold;
+    border-left: 1px solid #89ABB0;
+    vertical-align: center;
+    /*pour avoir un effet "outset" avec IE :*/
+}
 @media (max-width: 320px) {
     .navigation li {
         display: block;
     }
+}
+
+.btn--primary {
+    background-color: #00ABD9;
+    border: 1px solid #08A3CD;
+}
+
+.btn--success {
+    background-color: #08CD47;
+    border: 1px solid #0EBF46;
+}
+
+.btn--danger {
+    background-color: #DE1515;
+    border: 1px solid #CC0E0E;
+}
+
+.btn--warning {
+    background-color: #F89D29;
+    border: 1px solid #E58B19;
+}
+
+.btn--inverse {
+    background-color: #000;
+    border: 1px solid #002;
+}
+
+.btn--success, button.btn--danger, button.btn--warning, button.btn--primary, button.btn--inverse {
+    color: #fff;
+    padding: 5px;
+    max-width: 200px;
+}
+
+.btn--success:hover, button.btn--danger:hover, button.btn--warning:hover, button.btn--primary:hover {
+    color: #000;
+    text-decoration: none;
+}
+
+.btn--inverse:hover {
+    color:#C6C8C8;
+    text-decoration: none;
+}
+
+a {
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #0390AD;
+}
+
+a.btn--primary {
+    background-color: #00ABD9;
+    border: 1px solid #08A3CD;
+}
+
+a.btn--success {
+    background-color: #08CD47;
+    border: 1px solid #0EBF46;
+}
+
+a.btn--danger {
+    background-color: #DE1515;
+    border: 1px solid #CC0E0E;
+}
+
+a.btn--warning {
+    background-color: #F89D29;
+    border: 1px solid #E58B19;
+}
+
+a.btn--inverse {
+    background-color: #000;
+    border: 1px solid #002;
+}
+
+a.btn--success, a.btn--danger, a.btn--warning, a.btn--primary, a.btn--inverse {
+    color: #fff;
+    padding: 5px;
+    max-width: 200px;
+}
+
+a.btn--success:hover, a.btn--danger:hover, a.btn--warning:hover, a.btn--primary:hover {
+    color: #000;
+    text-decoration: none;
+}
+
+a.btn--inverse:hover {
+    color:#C6C8C8;
+    text-decoration: none;
 }
 
 a.light {
@@ -56,6 +181,14 @@ a.light {
     text-decoration: none;
 }
 a.light:hover{
+    color: #F75151;
+}
+
+a.link-footer {
+    color: #5FBF77;
+}
+
+a.link-footer:hover {
     color: #F75151;
 }
 
@@ -74,9 +207,8 @@ a.light:hover{
 .spacing-5 {
     margin: 5px;
 }
-
-.padding-6 {
-    padding: 6px;
+.spacing-6 {
+    margin: 5px;
 }
 .spacing-7 {
     margin: 7px;
@@ -94,6 +226,13 @@ a.light:hover{
     margin: 15px;
 }
 
+.padding-6 {
+    padding: 6px;
+}
+.padding-10 {
+    padding: 10px;
+}
+
 .alert--info {
     border: 1px solid #0275D8;
 }
@@ -103,11 +242,29 @@ a.light:hover{
 .alert--success {
     border: 1px solid #197619;
 }
+.alert--danger {
+    background-color: #DE1515;
+    border: 1px solid #CC0E0E;
+    color: black;
+}
+
+.alert--warning {
+    background-color: #F89D29;
+    border: 1px solid #E58B19;
+}
+
 label {
     min-width: 120px;
 }
+.label-spacing-2 {
+    min-width: 200px;
+}
+.label-spacing-3 {
+    min-width: 300px;
+}
 .box-container {
     min-height: 100px;
+    position: relative;
 }
 
 .head-box-container{
@@ -115,10 +272,123 @@ label {
     text-align: center;
     font-size: 15pt;
     font-family: Verdana;
-    background-color: #5F553D;
+    background-color: #434849;
     color: #ddd;
+}
+
+.head{
+    font-weight: bold;
+    text-align: center;
+    font-family: Verdana;
+    color: #ddd;
+}
+
+.foot{
+    text-align: left;
+    font-family: Verdana;
+    color: #434849;
+    background-color: rgba(0,0,0,0.1);
+    position: absolute;
+    bottom: 0;
+    right:0;
+    left: 0;
 }
 
 .bordered-dark {
     border: 1px solid #212529;
+}
+
+/* Forms */
+.input {
+    margin-bottom: 5px;
+}
+
+/* TEXT */
+.text-left {
+    text-align: left;
+    padding-left: 5px;
+}
+
+.text-right {
+    text-align: right;
+    padding-right: 5px;
+}
+
+.text-ground-color {
+    color: #493306;
+    background-color: #212529;
+    color: #e7e9ed;
+}
+
+/* TABLE */
+tr:nth-child(2n){
+    background-color: rgba(0,0,0,0.1)
+}
+
+/* CONSOLE */
+#console {
+    height: 0;
+    overflow: hidden;
+    transition: height 1.5s;
+    position:fixed;
+    bottom:0;
+    background-color:#900;
+    color:#fff;
+    line-height: 30px;
+    left:0;
+    right:0;
+    padding-left:10px;
+}
+
+#console:target {
+    height: 940px;
+}
+
+#hidden-bloc-1 {
+    height: 0;
+    overflow: hidden;
+    transition: height 1.5s;
+    line-height: 30px;
+    padding-left:10px;
+}
+
+#hidden-bloc-1:target {
+    height: 100px;
+}
+
+#hidden-bloc-2 {
+    height: 0;
+    overflow: hidden;
+    transition: height 1.5s;
+    line-height: 30px;
+    padding-left:10px;
+}
+
+#hidden-bloc-2:target {
+    height: 100px;
+}
+
+#hidden-bloc-3 {
+    height: 0;
+    overflow: hidden;
+    transition: height 1.5s;
+    line-height: 30px;
+    padding-left:10px;
+}
+
+#hidden-bloc-3:target {
+    height: 100px;
+}
+
+.conteneur {
+    position: relative;
+    display: inline-inline-block;
+}
+
+.contenu:hover .apercu {
+    display: inline-block;
+}
+
+.apercu {
+    overflow: hidden;
 }
